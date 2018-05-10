@@ -7,9 +7,10 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity() {
 // En Kotlin al heredar de una clase se pone el constructor de la superclase por defecto (En este caso sin argumento)
 
+    // Atributos
     val TAG = MainActivity::class.java.canonicalName // Buena práctica para establecer el TAG de los logs de cada clase
     var forecastImage: ImageView? = null
 
@@ -30,13 +31,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         forecastImage = findViewById(R.id.forecast_image)
 
-        europeanButton?.setOnClickListener(this)
-        americanButton?.setOnClickListener(this)
+//        europeanButton?.setOnClickListener(this)
+//        americanButton?.setOnClickListener(this)
 
         // Equivalente al if-let de Swift
         /*if (europeanButton != null) {
             europeanButton.setOnClickListener(this)
         }*/
+
+        // Con closures
+        europeanButton?.setOnClickListener {
+            forecastImage?.setImageResource(R.drawable.offline_weather)
+        }
+
+        americanButton?.setOnClickListener {
+            forecastImage?.setImageResource(R.drawable.offline_weather2)
+        }
 
     }
 
@@ -49,9 +59,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    override fun onClick(v: View?) {
+/*    override fun onClick(v: View?) {
         // v.getId() es lo mismo que v.id
-        /* Esta es una forma muy normal de usar un if
+        *//* Esta es una forma muy normal de usar un if
         if (v?.id == R.id.european_system_button) {
             Log.v(TAG, "Han pulsado el botón europeo")
         }
@@ -60,7 +70,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
         else {
             Log.w(TAG, "No tengo ni idea de qué es lo que han pulsado")
-        }*/
+        }*//*
 
 //        when (v?.id) { // En Kotlin no hay Switch statement, han When
 //            R.id.european_system_button -> Log.v(TAG, "Han pulsado el botón europeo")
@@ -82,5 +92,5 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         forecastImage?.setImageResource(imageToShow) // Solo se llama al método si forecastImage != null
 
-    }
+    }*/
 }
