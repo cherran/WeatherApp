@@ -12,7 +12,12 @@ class MainActivity : AppCompatActivity() {
 
     // Atributos
     val TAG = MainActivity::class.java.canonicalName // Buena práctica para establecer el TAG de los logs de cada clase
-    var forecastImage: ImageView? = null
+    // var forecastImage: ImageView? = null
+    // lateinit var forecastImage: ImageView
+    val forecastImage by lazy {
+        // La primera vez que se acceda en el código al valor de esta variable se calcula el mismo (la última línea de lo que hay dentro de este closure)
+        findViewById<ImageView>(R.id.forecast_image)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) { // Bundle? -> Optional
         super.onCreate(savedInstanceState)
@@ -20,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         // var number = savedInstanceState?.getInt("Number")
 
-        Log.v("aTag", "Han llamado a OnCreate")
+        Log.v(TAG, "Han llamado a OnCreate")
 
         val europeanButton = findViewById(R.id.european_system_button) as? Button
         // Todas estas opciones son igualmente válidas
@@ -29,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         val americanButton = findViewById(R.id.american_system_button) as? Button
 
-        forecastImage = findViewById(R.id.forecast_image)
+        // forecastImage = findViewById(R.id.forecast_image)
 
 //        europeanButton?.setOnClickListener(this)
 //        americanButton?.setOnClickListener(this)
@@ -41,11 +46,11 @@ class MainActivity : AppCompatActivity() {
 
         // Con closures
         europeanButton?.setOnClickListener {
-            forecastImage?.setImageResource(R.drawable.offline_weather)
+            forecastImage.setImageResource(R.drawable.offline_weather)
         }
 
         americanButton?.setOnClickListener {
-            forecastImage?.setImageResource(R.drawable.offline_weather2)
+            forecastImage.setImageResource(R.drawable.offline_weather2)
         }
 
     }
