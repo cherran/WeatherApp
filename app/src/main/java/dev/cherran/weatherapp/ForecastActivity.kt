@@ -3,7 +3,7 @@ package dev.cherran.weatherapp
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_forecast.*
 
 
 class ForecastActivity : AppCompatActivity() {
@@ -19,11 +19,16 @@ class ForecastActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) { // Bundle? -> Optional
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main) // Hasta aquí no puedo acceder a los elementos de la vista
-
+        setContentView(R.layout.activity_forecast) // Hasta aquí no puedo acceder a los elementos de la vista
         // var number = savedInstanceState?.getInt("Number")
 
         Log.v(TAG, "Han llamado a OnCreate")
+
+        val forecast = Forecast(25f, 10f, 35f, "Soleado con alguna nube", R.drawable.ico_01) // 25f ->  Float(25)
+        // forecast.minTemp = 12f // Puedo hacer esto si en el constructor de Forecast está definida como var
+
+
+
 
 //        val europeanButton = findViewById(R.id.european_system_button) as? Button
         // Todas estas opciones son igualmente válidas
