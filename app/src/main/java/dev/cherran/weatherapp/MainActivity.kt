@@ -3,9 +3,8 @@ package dev.cherran.weatherapp
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.View
-import android.widget.Button
-import android.widget.ImageView
+import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 // En Kotlin al heredar de una clase se pone el constructor de la superclase por defecto (En este caso sin argumento)
@@ -14,10 +13,10 @@ class MainActivity : AppCompatActivity() {
     val TAG = MainActivity::class.java.canonicalName // Buena práctica para establecer el TAG de los logs de cada clase
     // var forecastImage: ImageView? = null
     // lateinit var forecastImage: ImageView
-    val forecastImage by lazy {
-        // La primera vez que se acceda en el código al valor de esta variable se calcula el mismo (la última línea de lo que hay dentro de este closure)
-        findViewById<ImageView>(R.id.forecast_image)
-    }
+//    val forecastImage by lazy {
+//        // La primera vez que se acceda en el código al valor de esta variable se calcula el mismo (la última línea de lo que hay dentro de este closure)
+//        findViewById<ImageView>(R.id.forecast_image)
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) { // Bundle? -> Optional
         super.onCreate(savedInstanceState)
@@ -27,12 +26,12 @@ class MainActivity : AppCompatActivity() {
 
         Log.v(TAG, "Han llamado a OnCreate")
 
-        val europeanButton = findViewById(R.id.european_system_button) as? Button
+//        val europeanButton = findViewById(R.id.european_system_button) as? Button
         // Todas estas opciones son igualmente válidas
         // val europeanButton = findViewById<Button>(R.id.european_system_button)
         // val europeanButton: Button = findViewById(R.id.european_system_button)
 
-        val americanButton = findViewById(R.id.american_system_button) as? Button
+//        val americanButton = findViewById(R.id.american_system_button) as? Button
 
         // forecastImage = findViewById(R.id.forecast_image)
 
@@ -45,12 +44,12 @@ class MainActivity : AppCompatActivity() {
         }*/
 
         // Con closures
-        europeanButton?.setOnClickListener {
-            forecastImage.setImageResource(R.drawable.offline_weather)
+        european_system_button.setOnClickListener {
+            forecast_image.setImageResource(R.drawable.offline_weather)
         }
 
-        americanButton?.setOnClickListener {
-            forecastImage.setImageResource(R.drawable.offline_weather2)
+        american_system_button.setOnClickListener {
+            forecast_image.setImageResource(R.drawable.offline_weather2)
         }
 
     }
@@ -77,14 +76,15 @@ class MainActivity : AppCompatActivity() {
             Log.w(TAG, "No tengo ni idea de qué es lo que han pulsado")
         }*//*
 
-//        when (v?.id) { // En Kotlin no hay Switch statement, han When
-//            R.id.european_system_button -> Log.v(TAG, "Han pulsado el botón europeo")
-//            R.id.american_system_button -> Log.v(TAG, "Han pulsado el botón americano")
-//            else -> Log.w(TAG, "No tengo ni idea de qué es lo que han pulsado")
-//        }
+        // En Kotlin no hay Switch statement, hay When
+//      when (v?.id) {
+//          R.id.european_system_button -> Log.v(TAG, "Han pulsado el botón europeo")
+//          R.id.american_system_button -> Log.v(TAG, "Han pulsado el botón americano")
+//          else -> Log.w(TAG, "No tengo ni idea de qué es lo que han pulsado")
+//       }
 
        // Más PRO
-//       Log.v(TAG, when (v?.id) { // En Kotlin no hay Switch statement, han When
+//       Log.v(TAG, when (v?.id) {
 //           R.id.european_system_button -> "Han pulsado el botón europeo"
 //           R.id.american_system_button -> "Han pulsado el botón americano"
 //           else -> "No tengo ni idea de qué es lo que han pulsado"
