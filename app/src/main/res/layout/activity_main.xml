@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,23 +10,26 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:src="@drawable/offline_weather"/>
+        android:src="@drawable/offline_weather"
+        android:contentDescription="@string/offline_image_description" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
+            android:id="@+id/european_system_button"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Botón"/>
+            android:text="@string/european_system_button"/>
 
         <Button
+            android:id="@+id/american_system_button"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Botón 2"/>
+            android:text="@string/american_system_button"/>
     </LinearLayout>
 
-    
+
 </LinearLayout>

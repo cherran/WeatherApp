@@ -1,22 +1,39 @@
 package dev.cherran.weatherapp
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
+import android.widget.Button
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 // En Kotlin al heredar de una clase se pone el constructor de la superclase por defecto (En este caso sin argumento)
+
+    val TAG = MainActivity::class.java.canonicalName // Buena práctica para establecer el TAG de los logs de cada clase
 
     override fun onCreate(savedInstanceState: Bundle?) { // Bundle? -> Optional
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var number = savedInstanceState?.getInt("Number")
+        // var number = savedInstanceState?.getInt("Number")
 
-        Log.v("aTag", "Han llamado a OnCreate V")
-        Log.d("aTag", "Han llamado a OnCreate")
-        Log.e("aTag", "Han llamado a onCreate")
+        Log.v("aTag", "Han llamado a OnCreate")
+
+        val europeanButton = findViewById(R.id.european_system_button) as? Button
+        // Todas estas opciones son igualmente válidas
+        // val europeanButton = findViewById<Button>(R.id.european_system_button)
+        // val europeanButton: Button = findViewById(R.id.european_system_button)
+
+        val americanButton = findViewById(R.id.american_system_button) as? Button
+
+        europeanButton?.setOnClickListener(this)
+        americanButton?.setOnClickListener(this)
+
+        // Equivalente al if-let de Swift
+        /*if (europeanButton != null) {
+            europeanButton.setOnClickListener(this)
+        }*/
+
     }
 
 
@@ -25,5 +42,36 @@ class MainActivity : AppCompatActivity() {
 
         // Para guardar datos antes de la destrucción de la vista en el outState (Diccionario)
         outState?.putInt("Number", 3)
+    }
+
+
+    override fun onClick(v: View?) {
+        // v.getId() es lo mismo que v.id
+        /* Esta es una forma muy normal de usar un if
+        if (v?.id == R.id.european_system_button) {
+            Log.v(TAG, "Han pulsado el botón europeo")
+        }
+        else if (v?.id == R.id.american_system_button) {
+            Log.v(TAG, "Han pulsado el botón americano")
+        }
+        else {
+            Log.w(TAG, "No tengo ni idea de qué es lo que han pulsado")
+        }*/
+
+//        when (v?.id) { // En Kotlin no hay Switch statement, han When
+//            R.id.european_system_button -> Log.v(TAG, "Han pulsado el botón europeo")
+//            R.id.american_system_button -> Log.v(TAG, "Han pulsado el botón americano")
+//            else -> Log.w(TAG, "No tengo ni idea de qué es lo que han pulsado")
+//        }
+
+       // Más PRO
+       Log.v(TAG, when (v?.id) { // En Kotlin no hay Switch statement, han When
+           R.id.european_system_button -> "Han pulsado el botón europeo"
+           R.id.american_system_button -> "Han pulsado el botón americano"
+           else -> "No tengo ni idea de qué es lo que han pulsado"
+       })
+
+
+
     }
 }
