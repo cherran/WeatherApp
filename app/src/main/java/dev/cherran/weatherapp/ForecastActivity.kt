@@ -6,11 +6,10 @@ import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class ForecastActivity : AppCompatActivity() {
 // En Kotlin al heredar de una clase se pone el constructor de la superclase por defecto (En este caso sin argumento)
 
-    // Atributos
-    val TAG = MainActivity::class.java.canonicalName // Buena práctica para establecer el TAG de los logs de cada clase
+    val TAG = ForecastActivity::class.java.canonicalName // Buena práctica para establecer el TAG de los logs de cada clase
     // var forecastImage: ImageView? = null
     // lateinit var forecastImage: ImageView
 //    val forecastImage by lazy {
