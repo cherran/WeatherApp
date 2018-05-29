@@ -23,12 +23,7 @@ class ForecastActivity : AppCompatActivity() {
         // var number = savedInstanceState?.getInt("Number")
 
         Log.v(TAG, "Han llamado a OnCreate")
-
-        val forecast = Forecast(25f, 10f, 35f, "Soleado con alguna nube", R.drawable.ico_01) // 25f ->  Float(25)
-        // forecast.minTemp = 12f // Puedo hacer esto si en el constructor de Forecast está definida como var
-
-
-
+/*
 
 //        val europeanButton = findViewById(R.id.european_system_button) as? Button
         // Todas estas opciones son igualmente válidas
@@ -43,28 +38,52 @@ class ForecastActivity : AppCompatActivity() {
 //        americanButton?.setOnClickListener(this)
 
         // Equivalente al if-let de Swift
-        /*if (europeanButton != null) {
-            europeanButton.setOnClickListener(this)
-        }*/
+//        if (europeanButton != null) {
+//            europeanButton.setOnClickListener(this)
+//        }
 
         // Con closures
-        european_system_button.setOnClickListener {
-            forecast_image.setImageResource(R.drawable.offline_weather)
-        }
+//        european_system_button.setOnClickListener {
+//            forecast_image.setImageResource(R.drawable.offline_weather)
+//        }
+//
+//        american_system_button.setOnClickListener {
+//            forecast_image.setImageResource(R.drawable.offline_weather2)
+//        }
 
-        american_system_button.setOnClickListener {
-            forecast_image.setImageResource(R.drawable.offline_weather2)
-        }
+*/
 
+
+        val forecast = Forecast(25f,
+                                10f,
+                                35f,
+                                "Soleado con alguna nube",
+                                 R.drawable.ico_01) // 25f ->  Float(25)
+        // forecast.minTemp = 12f // Puedo hacer esto si en el constructor de Forecast está definida como var
+
+        setForecast(forecast)
     }
 
 
+
+
+    fun setForecast(forecast: Forecast) {
+        forecast_image.setImageResource(forecast.icon)
+        forecast_description.text = forecast.description
+
+        max_temp.text = getString(R.string.max_temp_format, forecast.maxTemp) // max_temp_format tiene parámetros, así que le paso también la temperatura
+        min_temp.text = getString(R.string.min_temp_format, forecast.minTemp)
+        humidity.text = getString(R.string.humidity_format, forecast.humidity)
+    }
+
+/*
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
 
         // Para guardar datos antes de la destrucción de la vista en el outState (Diccionario)
         outState?.putInt("Number", 3)
     }
+*/
 
 
 /*    override fun onClick(v: View?) {
