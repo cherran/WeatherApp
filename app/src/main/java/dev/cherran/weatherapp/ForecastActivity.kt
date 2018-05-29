@@ -1,5 +1,7 @@
 package dev.cherran.weatherapp
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -15,17 +17,21 @@ class ForecastActivity : AppCompatActivity() {
         val TAG = ForecastActivity::class.java.canonicalName // Buena práctica para establecer el TAG de los logs de cada clase
     }
 
+    val REQUEST_SETTINGS = 1
     var forecast: Forecast? = null
         set(value) {
             if (value != null) {
                 forecast_image.setImageResource(value.icon)
                 forecast_description.text = value.description
 
-                max_temp.text = getString(R.string.max_temp_format, value.maxTemp) // max_temp_format tiene parámetros, así que le paso también la temperatura
-                min_temp.text = getString(R.string.min_temp_format, value.minTemp)
+                updateTemperatureView()
                 humidity.text = getString(R.string.humidity_format, value.humidity)
             }
+            field = value /////////////////// Así guardo value en forecast
         }
+
+
+    var units = TemperatureUnit.CELSIUS
 
     // var forecastImage: ImageView? = null
     // lateinit var forecastImage: ImageView
@@ -68,7 +74,8 @@ class ForecastActivity : AppCompatActivity() {
 //                startActivity(intent)
 
                 // Con el patrón de los Intents, lo hacemos más sencillito
-                startActivity(SettingsActivity.intent(this, TemperatureUnit.FAHRENHEIT))
+                startActivityForResult(SettingsActivity.intent(this, units),
+                        REQUEST_SETTINGS)
 
                 return true
             }
@@ -77,6 +84,27 @@ class ForecastActivity : AppCompatActivity() {
     }
 
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            REQUEST_SETTINGS -> {
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    // VOlvemos de settings con datos sobre las unidades elegidas por el user
+                    val newUnits = data.getSerializableExtra(SettingsActivity.EXTRA_UNITS) as TemperatureUnit
+                    units = newUnits
+                }
+
+                updateTemperatureView()
+            }
+        }
+    }
+
+    // Aquí actualizamos la interfaz con las temperaturas
+    fun updateTemperatureView() {
+        max_temp.text = getString(R.string.max_temp_format, forecast?.getMaxTemp(units)) // max_temp_format tiene parámetros, así que le paso también la temperatura
+        min_temp.text = getString(R.string.min_temp_format, forecast?.getMinTemp(units))
+    }
 
     /*
 

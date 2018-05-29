@@ -1,5 +1,6 @@
 package dev.cherran.weatherapp
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -47,10 +48,18 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun cancelSettings() {
         // Volver a la activity anterior (hago pop de esta Activity en el stack de vistas)
+        setResult(Activity.RESULT_CANCELED)
         finish()
     }
 
     private fun acceptSettings() {
+        // Creamos los datos de regreso, en este caso las unidades elegidas
+        val returnIntent = Intent()
+        when (units_rg.checkedRadioButtonId) {
+            R.id.celsius_rb -> returnIntent.putExtra(EXTRA_UNITS, TemperatureUnit.CELSIUS)
+            R.id.farenheit_rb -> returnIntent.putExtra(EXTRA_UNITS, TemperatureUnit.FAHRENHEIT)
+        }
+
         finish()
     }
 }
