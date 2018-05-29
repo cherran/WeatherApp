@@ -9,7 +9,22 @@ import kotlinx.android.synthetic.main.activity_forecast.*
 class ForecastActivity : AppCompatActivity() {
 // En Kotlin al heredar de una clase se pone el constructor de la superclase por defecto (En este caso sin argumento)
 
-    val TAG = ForecastActivity::class.java.canonicalName // Buena práctica para establecer el TAG de los logs de cada clase
+    companion object { // Parte estática de la clase
+        val TAG = ForecastActivity::class.java.canonicalName // Buena práctica para establecer el TAG de los logs de cada clase
+    }
+
+    var forecast: Forecast? = null
+        set(value) {
+            if (value != null) {
+                forecast_image.setImageResource(value.icon)
+                forecast_description.text = value.description
+
+                max_temp.text = getString(R.string.max_temp_format, value.maxTemp) // max_temp_format tiene parámetros, así que le paso también la temperatura
+                min_temp.text = getString(R.string.min_temp_format, value.minTemp)
+                humidity.text = getString(R.string.humidity_format, value.humidity)
+            }
+        }
+
     // var forecastImage: ImageView? = null
     // lateinit var forecastImage: ImageView
 //    val forecastImage by lazy {
@@ -23,6 +38,17 @@ class ForecastActivity : AppCompatActivity() {
         // var number = savedInstanceState?.getInt("Number")
 
         Log.v(TAG, "Han llamado a OnCreate")
+
+        forecast = Forecast(25f,
+                10f,
+                35f,
+                "Soleado con alguna nube",
+                R.drawable.ico_01) // 25f ->  Float(25)
+        // forecast.minTemp = 12f // Puedo hacer esto si en el constructor de Forecast está definida como var
+
+
+
+        
 /*
 
 //        val europeanButton = findViewById(R.id.european_system_button) as? Button
@@ -53,28 +79,8 @@ class ForecastActivity : AppCompatActivity() {
 
 */
 
-
-        val forecast = Forecast(25f,
-                                10f,
-                                35f,
-                                "Soleado con alguna nube",
-                                 R.drawable.ico_01) // 25f ->  Float(25)
-        // forecast.minTemp = 12f // Puedo hacer esto si en el constructor de Forecast está definida como var
-
-        setForecast(forecast)
     }
 
-
-
-
-    fun setForecast(forecast: Forecast) {
-        forecast_image.setImageResource(forecast.icon)
-        forecast_description.text = forecast.description
-
-        max_temp.text = getString(R.string.max_temp_format, forecast.maxTemp) // max_temp_format tiene parámetros, así que le paso también la temperatura
-        min_temp.text = getString(R.string.min_temp_format, forecast.minTemp)
-        humidity.text = getString(R.string.humidity_format, forecast.humidity)
-    }
 
 /*
     override fun onSaveInstanceState(outState: Bundle?) {

@@ -6,4 +6,7 @@
     <string name="max_temp_format">Máx: %.2fº</string>
     <string name="min_temp_format">Mín: %.2fº</string>
     <string name="humidity_format">Humedad: %.0f%%</string>
+    <string name="select_units">Selecciona las unidades</string>
+    <string name="celsius_units">Unidades Celsius</string>
+    <string name="farenheit_units">Unidades Farhenheit</string>
 </resources>
