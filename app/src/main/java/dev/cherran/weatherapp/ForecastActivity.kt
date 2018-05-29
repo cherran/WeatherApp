@@ -34,7 +34,12 @@ class ForecastActivity : AppCompatActivity() {
         }
 
 
-    var units = TemperatureUnit.CELSIUS
+    val units: TemperatureUnit
+        get() = when(PreferenceManager.getDefaultSharedPreferences(this)
+                .getInt(PREFERENCE_UNITS, TemperatureUnit.CELSIUS.ordinal)) {
+            TemperatureUnit.CELSIUS.ordinal -> TemperatureUnit.CELSIUS
+            else -> TemperatureUnit.FAHRENHEIT
+        }
 
     // var forecastImage: ImageView? = null
     // lateinit var forecastImage: ImageView
@@ -50,11 +55,6 @@ class ForecastActivity : AppCompatActivity() {
 
         Log.v(TAG, "Han llamado a OnCreate")
 
-        units = when(PreferenceManager.getDefaultSharedPreferences(this)
-                .getInt(PREFERENCE_UNITS, TemperatureUnit.CELSIUS.ordinal)) {
-            TemperatureUnit.CELSIUS.ordinal -> TemperatureUnit.CELSIUS
-            else -> TemperatureUnit.FAHRENHEIT
-        }
 
         forecast = Forecast(25f,
                 10f,
@@ -101,16 +101,15 @@ class ForecastActivity : AppCompatActivity() {
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     // Volvemos de settings con datos sobre las unidades elegidas por el user
                     val newUnits = data.getSerializableExtra(SettingsActivity.EXTRA_UNITS) as TemperatureUnit
-                    units = newUnits
-
-                    // Actualizo la interfaz con las nuevas unidades
-                    updateTemperatureView()
 
                     // Guardo las preferencias del usuario
                     PreferenceManager.getDefaultSharedPreferences(this)
                             .edit()
-                            .putInt(PREFERENCE_UNITS, units.ordinal)
+                            .putInt(PREFERENCE_UNITS, newUnits.ordinal)
                             .apply() // Para hacerlo de forma asíncrona
+
+                    // Actualizo la interfaz con las nuevas unidades
+                    updateTemperatureView()
                 }
             }
         }
