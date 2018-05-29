@@ -59,7 +59,9 @@ class SettingsActivity : AppCompatActivity() {
             R.id.celsius_rb -> returnIntent.putExtra(EXTRA_UNITS, TemperatureUnit.CELSIUS)
             R.id.farenheit_rb -> returnIntent.putExtra(EXTRA_UNITS, TemperatureUnit.FAHRENHEIT)
         }
+        setResult(Activity.RESULT_OK, returnIntent)
 
+        // Finalizamos la actividad para volver a la anterior
         finish()
     }
 }

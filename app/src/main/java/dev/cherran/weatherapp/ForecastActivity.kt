@@ -20,6 +20,7 @@ class ForecastActivity : AppCompatActivity() {
     val REQUEST_SETTINGS = 1
     var forecast: Forecast? = null
         set(value) {
+            field = value /////////////////// Así guardo value en forecast
             if (value != null) {
                 forecast_image.setImageResource(value.icon)
                 forecast_description.text = value.description
@@ -27,7 +28,6 @@ class ForecastActivity : AppCompatActivity() {
                 updateTemperatureView()
                 humidity.text = getString(R.string.humidity_format, value.humidity)
             }
-            field = value /////////////////// Así guardo value en forecast
         }
 
 
@@ -90,12 +90,13 @@ class ForecastActivity : AppCompatActivity() {
         when (requestCode) {
             REQUEST_SETTINGS -> {
                 if (resultCode == Activity.RESULT_OK && data != null) {
-                    // VOlvemos de settings con datos sobre las unidades elegidas por el user
+                    // Volvemos de settings con datos sobre las unidades elegidas por el user
                     val newUnits = data.getSerializableExtra(SettingsActivity.EXTRA_UNITS) as TemperatureUnit
                     units = newUnits
-                }
 
-                updateTemperatureView()
+                    // Actualizo la interfaz con las nuevas unidades
+                    updateTemperatureView()
+                }
             }
         }
     }
