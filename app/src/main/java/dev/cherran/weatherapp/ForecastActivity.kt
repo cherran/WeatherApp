@@ -3,6 +3,7 @@ package dev.cherran.weatherapp
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
@@ -18,6 +19,8 @@ class ForecastActivity : AppCompatActivity() {
     }
 
     val REQUEST_SETTINGS = 1
+    val PREFERENCE_UNITS = "PREFERENCE_UNITS"
+
     var forecast: Forecast? = null
         set(value) {
             field = value /////////////////// Así guardo value en forecast
@@ -46,6 +49,12 @@ class ForecastActivity : AppCompatActivity() {
         // var number = savedInstanceState?.getInt("Number")
 
         Log.v(TAG, "Han llamado a OnCreate")
+
+        units = when(PreferenceManager.getDefaultSharedPreferences(this)
+                .getInt(PREFERENCE_UNITS, TemperatureUnit.CELSIUS.ordinal)) {
+            TemperatureUnit.CELSIUS.ordinal -> TemperatureUnit.CELSIUS
+            else -> TemperatureUnit.FAHRENHEIT
+        }
 
         forecast = Forecast(25f,
                 10f,
@@ -96,6 +105,12 @@ class ForecastActivity : AppCompatActivity() {
 
                     // Actualizo la interfaz con las nuevas unidades
                     updateTemperatureView()
+
+                    // Guardo las preferencias del usuario
+                    PreferenceManager.getDefaultSharedPreferences(this)
+                            .edit()
+                            .putInt(PREFERENCE_UNITS, units.ordinal)
+                            .apply() // Para hacerlo de forma asíncrona
                 }
             }
         }
@@ -103,9 +118,13 @@ class ForecastActivity : AppCompatActivity() {
 
     // Aquí actualizamos la interfaz con las temperaturas
     fun updateTemperatureView() {
-        max_temp.text = getString(R.string.max_temp_format, forecast?.getMaxTemp(units)) // max_temp_format tiene parámetros, así que le paso también la temperatura
-        min_temp.text = getString(R.string.min_temp_format, forecast?.getMinTemp(units))
+        max_temp.text = getString(R.string.max_temp_format, forecast?.getMaxTemp(units), unitsToString()) // max_temp_format tiene parámetros, así que le paso también la temperatura
+        min_temp.text = getString(R.string.min_temp_format, forecast?.getMinTemp(units), unitsToString())
     }
+
+    fun unitsToString() = if (units == TemperatureUnit.CELSIUS) "ºC"
+        else "F"
+
 
     /*
 
