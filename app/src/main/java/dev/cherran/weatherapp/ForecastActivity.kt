@@ -1,6 +1,5 @@
 package dev.cherran.weatherapp
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -64,8 +63,12 @@ class ForecastActivity : AppCompatActivity() {
         when (item?.itemId) {
             R.id.menu_show_settings -> {
                 // Lanzaremos la pantalla de ajustes
-                val intent = Intent(this, SettingsActivity::class.java)
-                startActivity(intent)
+
+//                val intent = Intent(this, SettingsActivity::class.java)
+//                startActivity(intent)
+
+                // Con el patrón de los Intents, lo hacemos más sencillito
+                startActivity(SettingsActivity.intent(this, TemperatureUnit.FAHRENHEIT))
 
                 return true
             }
