@@ -1,8 +1,11 @@
 package dev.cherran.weatherapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_forecast.*
 
 
@@ -45,11 +48,34 @@ class ForecastActivity : AppCompatActivity() {
                 "Soleado con alguna nube",
                 R.drawable.ico_01) // 25f ->  Float(25)
         // forecast.minTemp = 12f // Puedo hacer esto si en el constructor de Forecast está definida como var
+    }
+
+
+    //////////
+    // Menu //
+    //////////
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // return super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.activity_forecast, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.menu_show_settings -> {
+                // Lanzaremos la pantalla de ajustes
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
 
 
-        
-/*
+    /*
 
 //        val europeanButton = findViewById(R.id.european_system_button) as? Button
         // Todas estas opciones son igualmente válidas
@@ -79,7 +105,7 @@ class ForecastActivity : AppCompatActivity() {
 
 */
 
-    }
+//    }
 
 
 /*
