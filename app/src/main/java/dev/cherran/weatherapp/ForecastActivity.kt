@@ -4,10 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+// import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_forecast.*
 
 
@@ -101,6 +104,7 @@ class ForecastActivity : AppCompatActivity() {
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     // Volvemos de settings con datos sobre las unidades elegidas por el user
                     val newUnits = data.getSerializableExtra(SettingsActivity.EXTRA_UNITS) as TemperatureUnit
+                    val oldUnits = units // Las almaceno por si el usuario deshace el cambio de unidades en el Snackbar
 
                     // Guardo las preferencias del usuario
                     PreferenceManager.getDefaultSharedPreferences(this)
@@ -110,6 +114,23 @@ class ForecastActivity : AppCompatActivity() {
 
                     // Actualizo la interfaz con las nuevas unidades
                     updateTemperatureView()
+
+                    val newUnitsString = if (newUnits == TemperatureUnit.CELSIUS) getString(R.string.user_selects_celsius)
+                        else getString(R.string.user_selects_fahrenheit)
+
+                    // Toast.makeText(this, newUnitsString, Toast.LENGTH_LONG).show()
+                    Snackbar.make(findViewById<View>(android.R.id.content), newUnitsString, Snackbar.LENGTH_LONG)
+                            .setAction(getString(R.string.undo), View.OnClickListener {
+                                // Guardo las unidades viejas
+                                PreferenceManager.getDefaultSharedPreferences(this)
+                                        .edit()
+                                        .putInt(PREFERENCE_UNITS, oldUnits.ordinal)
+                                        .apply() // Para hacerlo de forma asíncrona
+
+                                // Actualizo la interfaz con las nuevas unidades
+                                updateTemperatureView()
+                            })
+                            .show()
                 }
             }
         }

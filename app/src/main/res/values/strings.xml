@@ -10,4 +10,7 @@
     <string name="celsius_units">Unidades Celsius</string>
     <string name="farenheit_units">Unidades Farhenheit</string>
     <string name="settings">Ajustes</string>
+    <string name="user_selects_celsius">El usuario ha elegido Celsius</string>
+    <string name="user_selects_fahrenheit">El usuario ha elegido Fahrenheit</string>
+    <string name="undo">Deshacer</string>
 </resources>
