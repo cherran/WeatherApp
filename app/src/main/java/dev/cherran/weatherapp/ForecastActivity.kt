@@ -120,7 +120,17 @@ class ForecastActivity : AppCompatActivity() {
 
                     // Toast.makeText(this, newUnitsString, Toast.LENGTH_LONG).show()
                     Snackbar.make(findViewById<View>(android.R.id.content), newUnitsString, Snackbar.LENGTH_LONG)
-                            .setAction(getString(R.string.undo), View.OnClickListener {
+//                            .setAction(getString(R.string.undo), View.OnClickListener {
+//                                // Guardo las unidades viejas
+//                                PreferenceManager.getDefaultSharedPreferences(this)
+//                                        .edit()
+//                                        .putInt(PREFERENCE_UNITS, oldUnits.ordinal)
+//                                        .apply() // Para hacerlo de forma asíncrona
+//
+//                                // Actualizo la interfaz con las nuevas unidades
+//                                updateTemperatureView()
+//                            })
+                            .setAction(getString(R.string.undo)) {// El último argumento de setAction es un closure (bloque dde código), por lo que se puede pasar así (trailing closure) para simplificarlo
                                 // Guardo las unidades viejas
                                 PreferenceManager.getDefaultSharedPreferences(this)
                                         .edit()
@@ -129,7 +139,7 @@ class ForecastActivity : AppCompatActivity() {
 
                                 // Actualizo la interfaz con las nuevas unidades
                                 updateTemperatureView()
-                            })
+                            }
                             .show()
                 }
             }
