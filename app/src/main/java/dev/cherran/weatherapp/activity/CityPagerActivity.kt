@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.PagerAdapter
+import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
 import dev.cherran.weatherapp.R
@@ -15,14 +16,15 @@ import kotlinx.android.synthetic.main.activity_city_pager.*
 
 class CityPagerActivity : AppCompatActivity() {
 
+    private val cities = Cities()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_city_pager)
 
         toolbar.setLogo(R.mipmap.ic_launcher)
         setSupportActionBar(toolbar) // Para hacer que la toolbar haga de ActionBar
-
-        val cities = Cities()
 
         val adapter = object: FragmentPagerAdapter(supportFragmentManager) { /////////// Clase anónima
             override fun getItem(position: Int): Fragment {
@@ -38,8 +40,26 @@ class CityPagerActivity : AppCompatActivity() {
         }
 
         view_pager.adapter = adapter
+        view_pager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                updateCityInfo(position)
+            }
+        })
+
+        updateCityInfo(0)
+
     }
 
+
+    private fun updateCityInfo(position: Int) {
+        supportActionBar.title = cities.getCity(position).name
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
