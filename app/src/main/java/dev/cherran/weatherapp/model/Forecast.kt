@@ -1,5 +1,7 @@
 package dev.cherran.weatherapp.model
 
+import java.io.Serializable
+
 enum class TemperatureUnit {
     CELSIUS,
     FAHRENHEIT
@@ -7,7 +9,7 @@ enum class TemperatureUnit {
 
 
 
-data class Forecast(private val maxTemp: Float, private val minTemp: Float, val humidity: Float, val description: String, val icon: Int) {
+data class Forecast(private val maxTemp: Float, private val minTemp: Float, val humidity: Float, val description: String, val icon: Int): Serializable {
 
     init {
         if (humidity !in 0f..100f) {

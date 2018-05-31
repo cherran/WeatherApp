@@ -10,12 +10,37 @@ import android.view.*
 import dev.cherran.weatherapp.model.Forecast
 import dev.cherran.weatherapp.R
 import dev.cherran.weatherapp.activity.SettingsActivity
+import dev.cherran.weatherapp.model.City
 import dev.cherran.weatherapp.model.TemperatureUnit
 import kotlinx.android.synthetic.main.fragment_forecast.*
 
 class ForecastFragment: Fragment() {
+
+
+    companion object {
+        val ARG_CITY = "ARG_CITY"
+
+        // Patrón muy común en Android para la creación de Fragments
+        fun newInstance(city: City): Fragment {
+            // Creamos el fragment
+            val fragment = ForecastFragment()
+
+            // Creamos los argumentos del fragment
+            val arguments = Bundle()
+            arguments.putSerializable(ARG_CITY, city)
+
+            // Asignamos los argumentos al fragment
+            fragment.arguments = arguments
+
+            // Devolvemos el fragment
+            return fragment
+        }
+
+    }
+
     val REQUEST_SETTINGS = 1
     val PREFERENCE_UNITS = "PREFERENCE_UNITS"
+
 
     var forecast: Forecast? = null
         set(value) {
@@ -58,11 +83,11 @@ class ForecastFragment: Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // En el caso de los Fragments no se puede actualizar la vista hasta que esta ha sido creada
-        forecast = Forecast(25f,
-                10f,
-                35f,
-                "Soleado con alguna nube",
-                R.drawable.ico_01) // 25f ->  Float(25)
+
+        if(arguments != null) {
+            val city = arguments.getSerializable(ARG_CITY) as City
+            forecast = city.forecast
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
