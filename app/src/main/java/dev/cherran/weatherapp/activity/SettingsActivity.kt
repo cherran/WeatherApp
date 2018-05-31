@@ -1,10 +1,12 @@
-package dev.cherran.weatherapp
+package dev.cherran.weatherapp.activity
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import dev.cherran.weatherapp.R
+import dev.cherran.weatherapp.model.TemperatureUnit
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity() {

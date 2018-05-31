@@ -1,4 +1,4 @@
-package dev.cherran.weatherapp
+package dev.cherran.weatherapp.fragment
 
 import android.app.Activity
 import android.app.Fragment
@@ -7,6 +7,10 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.design.widget.Snackbar
 import android.view.*
+import dev.cherran.weatherapp.model.Forecast
+import dev.cherran.weatherapp.R
+import dev.cherran.weatherapp.activity.SettingsActivity
+import dev.cherran.weatherapp.model.TemperatureUnit
 import kotlinx.android.synthetic.main.fragment_forecast.*
 
 class ForecastFragment: Fragment() {
@@ -34,18 +38,23 @@ class ForecastFragment: Fragment() {
         }
 
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        super.onCreateView(inflater, container, savedInstanceState)
-        val root = inflater?.inflate(R.layout.fragment_forecast, container, false)
-        return root!!
-    }
-
-
+    // No se actualiza la interfaz aquí, de momento solo lo utilizamos para el setHasOptionsMenu(true). Puede ser opcional
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
 
+
+    // Muy importante, aquí se infla el XML de la vista
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+        val root = inflater?.inflate(R.layout.fragment_forecast, container, false)
+        //  attachToRoot: false --> ya se encarga de hacerlo la Activity
+        return root!!
+    }
+
+
+    // Aquí la interfaz ya ha sido creada, podemos empezar a modificarla
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // En el caso de los Fragments no se puede actualizar la vista hasta que esta ha sido creada

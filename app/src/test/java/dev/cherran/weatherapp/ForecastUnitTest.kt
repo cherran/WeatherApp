@@ -1,5 +1,7 @@
 package dev.cherran.weatherapp
 
+import dev.cherran.weatherapp.model.Forecast
+import dev.cherran.weatherapp.model.TemperatureUnit
 import org.junit.Test
 import org.junit.Assert.*
 import org.junit.Before

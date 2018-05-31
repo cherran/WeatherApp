@@ -1,10 +1,11 @@
-package dev.cherran.weatherapp
+package dev.cherran.weatherapp.activity
 
 
 // import android.widget.Toast
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import dev.cherran.weatherapp.R
 
 
 class ForecastActivity : AppCompatActivity() {

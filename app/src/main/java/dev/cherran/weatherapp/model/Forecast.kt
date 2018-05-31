@@ -1,4 +1,4 @@
-package dev.cherran.weatherapp
+package dev.cherran.weatherapp.model
 
 enum class TemperatureUnit {
     CELSIUS,
