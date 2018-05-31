@@ -1,9 +1,10 @@
 package dev.cherran.weatherapp.activity
 
-import android.app.Fragment
+
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v13.app.FragmentPagerAdapter
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentPagerAdapter
 import dev.cherran.weatherapp.R
 import dev.cherran.weatherapp.fragment.ForecastFragment
 import dev.cherran.weatherapp.model.Cities
@@ -15,9 +16,12 @@ class CityPagerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_city_pager)
 
+        toolbar.setLogo(R.mipmap.ic_launcher)
+        setSupportActionBar(toolbar) // Para hacer que la toolbar haga de ActionBar
+
         val cities = Cities()
 
-        val adapter = object: FragmentPagerAdapter(fragmentManager) { /////////// Clase anónima
+        val adapter = object: FragmentPagerAdapter(supportFragmentManager) { /////////// Clase anónima
             override fun getItem(position: Int): Fragment {
                 return ForecastFragment.newInstance(cities.getCity(position))
             }

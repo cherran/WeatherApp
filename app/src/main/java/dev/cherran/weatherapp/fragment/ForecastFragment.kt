@@ -1,7 +1,7 @@
 package dev.cherran.weatherapp.fragment
 
 import android.app.Activity
-import android.app.Fragment
+import android.support.v4.app.Fragment
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -70,25 +70,23 @@ class ForecastFragment: Fragment() {
     }
 
 
-    // Muy importante, aquí se infla el XML de la vista
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        val root = inflater?.inflate(R.layout.fragment_forecast, container, false)
-        //  attachToRoot: false --> ya se encarga de hacerlo la Activity
-        return root!!
+        return inflater.inflate(R.layout.fragment_forecast, container, false)
     }
+
 
 
     // Aquí la interfaz ya ha sido creada, podemos empezar a modificarla
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // En el caso de los Fragments no se puede actualizar la vista hasta que esta ha sido creada
 
-        if(arguments != null) {
-            val city = arguments.getSerializable(ARG_CITY) as City
-            forecast = city.forecast
-        }
+
+        val city = arguments?.getSerializable(ARG_CITY) as City
+        forecast = city.forecast
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -104,7 +102,7 @@ class ForecastFragment: Fragment() {
 //                startActivity(intent)
 
                 // Con el patrón de los Intents, lo hacemos más sencillito
-                startActivityForResult(SettingsActivity.intent(activity, units),
+                startActivityForResult(SettingsActivity.intent(activity!!, units),
                         REQUEST_SETTINGS)
 
                 return true
@@ -137,7 +135,7 @@ class ForecastFragment: Fragment() {
                     else getString(R.string.user_selects_fahrenheit)
 
                     // Toast.makeText(this, newUnitsString, Toast.LENGTH_LONG).show()
-                    Snackbar.make(view, newUnitsString, Snackbar.LENGTH_LONG)
+                    Snackbar.make(view!!, newUnitsString, Snackbar.LENGTH_LONG)
 //                            .setAction(getString(R.string.undo), View.OnClickListener {
 //                                // Guardo las unidades viejas
 //                                PreferenceManager.getDefaultSharedPreferences(this)
