@@ -2,6 +2,7 @@ package dev.cherran.weatherapp.activity
 
 
 // import android.widget.Toast
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -28,12 +29,25 @@ class ForecastActivity : AppCompatActivity(), CityListFragment.OnCitySelectedLis
 //        findViewById<ImageView>(R.id.forecast_image)
 //    }
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) { // Bundle? -> Optional
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forecast) // Hasta aquí no puedo acceder a los elementos de la vista
         // var number = savedInstanceState?.getInt("Number")
 
         Log.v(TAG, "Han llamado a OnCreate")
+
+
+        // Chuleta para saber detalles del dispositivo real (o emulador) que está ejecutando
+        val metrics = resources.displayMetrics
+        val width = metrics.widthPixels
+        val height = metrics.heightPixels
+        val dpWidth = (width / metrics.density).toInt()
+        val dpHeight = (height / metrics.density).toInt()
+        val model = Build.MODEL
+        val androidVersion = Build.VERSION.SDK_INT
+
 
         // Averiguamos qué interfaz hemos cargado
         // Eso lo averiguamos si en la interfaz tenemos un FrameLayout concreto
