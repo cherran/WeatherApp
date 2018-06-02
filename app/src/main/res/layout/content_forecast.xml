@@ -15,13 +15,24 @@
         tools:context=".activity.ForecastActivity"
         android:padding="@dimen/default_activity_padding">
 
+        <TextView
+            android:id="@+id/day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            tools:text="Hoy" />
 
         <ImageView
             android:id="@+id/forecast_image"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/forecast_image_width"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/day"
             android:src="@drawable/ico_02"
             android:layout_alignParentLeft="true" />
 
@@ -29,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/forecast_image"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/day"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_alignBottom="@+id/forecast_image"
@@ -40,19 +51,22 @@
                 android:id="@+id/max_temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Max: 30º C" />
+                tools:text="Max: 30º C"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
 
             <TextView
                 android:id="@+id/min_temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Min: 20 ºC" />
+                tools:text="Min: 20 ºC"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
 
             <TextView
                 android:id="@+id/humidity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Humedad: 70%"/>
+                tools:text="Humedad: 70%"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
         </LinearLayout>
 
         <TextView
@@ -64,7 +78,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/forecast_image"
-            tools:text="Soleado con algunas nubes" />
+            tools:text="Soleado con algunas nubes"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
 
     </RelativeLayout>

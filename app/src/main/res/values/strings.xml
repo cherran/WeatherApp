@@ -16,4 +16,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="today">Hoy</string>
+    <string name="tomorrow">Mañana</string>
+    <string name="day_after_tomorrow">Pasado mañana</string>
+    <string name="day_after_after_tomorrow">Pasado pasado mañana</string>
+    <string name="day_after_after_after_tomorrow">Pasado pasado pasado mañana</string>
+    <string name="unknown_day">Día desconocido</string>
 </resources>

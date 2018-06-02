@@ -6,10 +6,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.design.widget.Snackbar
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import dev.cherran.weatherapp.model.Forecast
 import dev.cherran.weatherapp.R
 import dev.cherran.weatherapp.activity.SettingsActivity
+import dev.cherran.weatherapp.adapter.ForecastRecyclerViewAdapter
 import dev.cherran.weatherapp.model.City
 import dev.cherran.weatherapp.model.TemperatureUnit
 import kotlinx.android.synthetic.main.content_forecast.*
@@ -48,15 +52,12 @@ class ForecastFragment: Fragment() {
     val PREFERENCE_UNITS = "PREFERENCE_UNITS"
 
 
-    var forecast: Forecast? = null
+    var forecast: List<Forecast>? = null
         set(value) {
             field = value /////////////////// Así guardo value en forecast
-            if (value != null) {
-                forecast_image.setImageResource(value.icon)
-                forecast_description.text = value.description
-
-                updateTemperatureView()
-                humidity.text = getString(R.string.humidity_format, value.humidity)
+    if (value != null) {
+                val adapter = ForecastRecyclerViewAdapter(value)
+                forecast_list?.adapter = adapter
             }
         }
 
@@ -97,15 +98,16 @@ class ForecastFragment: Fragment() {
 
         view.postDelayed({
             // Aquí simulamos que ya nos hemos bajado la información del tiempo
-            // Configuramos el RecyclerView. Primero decimos cómo se visualizan sus elementos
 
-            // forecast_list.layoutManager = GridLayoutManager(activity, resources.getInteger(R.integer.forecast_columns))
+            // Configuramos el RecyclerView. Primero decimos cómo se visualizan sus elementos
+            forecast_list?.layoutManager = LinearLayoutManager(activity)// GridLayoutManager(activity, resources.getInteger(R.integer.forecast_columns))
 
             // Le decimos quién es el que anima al RecyclerView
-            // forecast_list.itemAnimator = DefaultItemAnimator()
+            forecast_list?.itemAnimator = DefaultItemAnimator()
 
-            // Por último tenemos que decirle los datos que van a rellenar el RecyclerView. Eso es
-            // tarea del setter de forecast
+            // Por último tenemos que decirle los datos que van a rellenar el RecyclerView.
+            // No se hace aquí, eso es tarea del setter de forecast
+
             val city = arguments?.getSerializable(ARG_CITY) as City
             forecast = city.forecast
             view_switcher?.displayedChild = VIEW_INDEX.FORECAST.index
@@ -200,11 +202,8 @@ class ForecastFragment: Fragment() {
 
     // Aquí actualizamos la interfaz con las temperaturas
     private fun updateTemperatureView() {
-        max_temp?.text = getString(R.string.max_temp_format, forecast?.getMaxTemp(units), unitsToString()) // max_temp_format tiene parámetros, así que le paso también la temperatura
-        min_temp?.text = getString(R.string.min_temp_format, forecast?.getMinTemp(units), unitsToString())
+        forecast_list?.adapter = ForecastRecyclerViewAdapter(forecast!!)
     }
 
-    private fun unitsToString() = if (units == TemperatureUnit.CELSIUS) "ºC"
-    else "F"
 
 }
