@@ -1,6 +1,8 @@
 package dev.cherran.weatherapp.activity
 
 
+import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -15,6 +17,18 @@ import dev.cherran.weatherapp.model.Cities
 import kotlinx.android.synthetic.main.activity_city_pager.*
 
 class CityPagerActivity : AppCompatActivity() {
+
+    companion object {
+
+        val EXTRA_CITY = "EXTRA_CITY"
+
+        fun intent(context: Context, cityIndex: Int): Intent {
+            val intent = Intent(context, CityPagerActivity::class.java)
+            intent.putExtra(EXTRA_CITY, cityIndex)
+
+            return intent
+        }
+    }
 
     private val cities = Cities()
 
@@ -52,14 +66,21 @@ class CityPagerActivity : AppCompatActivity() {
             }
         })
 
-        updateCityInfo(0)
-
+        val initialCityIndex = intent.getIntExtra(EXTRA_CITY, 0)
+        moveToCity(intent.getIntExtra(EXTRA_CITY, 0))
+        updateCityInfo(initialCityIndex)
     }
 
 
     private fun updateCityInfo(position: Int) {
         supportActionBar?.title = cities.getCity(position).name
     }
+
+
+    private fun moveToCity(position: Int) {
+        view_pager.currentItem = position
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)

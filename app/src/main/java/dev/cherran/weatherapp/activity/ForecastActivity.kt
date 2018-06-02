@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import dev.cherran.weatherapp.R
 import dev.cherran.weatherapp.fragment.CityListFragment
+import dev.cherran.weatherapp.model.City
 
 
-class ForecastActivity : AppCompatActivity() {
+class ForecastActivity : AppCompatActivity(), CityListFragment.OnCitySelectedListener {
+
 // En Kotlin al heredar de una clase se pone el constructor de la superclase por defecto (En este caso sin argumento)
 
     companion object { // Parte estática de la clase
@@ -43,6 +45,12 @@ class ForecastActivity : AppCompatActivity() {
 
     }
 
+
+    // OnCitySelectedListener
+    override fun onCitySelected(city: City, position: Int) {
+        val intent = CityPagerActivity.intent(this, position)
+        startActivity(intent)
+    }
 
     /*
 

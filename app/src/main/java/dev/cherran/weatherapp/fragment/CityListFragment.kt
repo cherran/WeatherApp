@@ -1,6 +1,8 @@
 package dev.cherran.weatherapp.fragment
 
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +14,7 @@ import dev.cherran.weatherapp.R
 import dev.cherran.weatherapp.model.Cities
 import dev.cherran.weatherapp.model.City
 import kotlinx.android.synthetic.main.fragment_city_list.*
+import java.text.FieldPosition
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,6 +44,8 @@ class CityListFragment : Fragment() {
     }
 
 
+    var onCitySelectedListener: OnCitySelectedListener? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -58,6 +63,39 @@ class CityListFragment : Fragment() {
                                          cities.toArray())
 
         city_list.adapter = adapter
+
+        city_list.setOnItemClickListener { _, _, position, _ ->
+            // Avisamos al listener que una ciudad ha sido pulsada
+            onCitySelectedListener?.onCitySelected(cities[position], position)
+        }
     }
 
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        commonAttach(context as Activity?)
+    }
+
+    override fun onAttach(activity: Activity?) {
+        super.onAttach(activity)
+        commonAttach(activity)
+    }
+
+    private fun commonAttach(activity: Activity?) {
+        if(activity is OnCitySelectedListener) {
+            onCitySelectedListener = activity
+        } else {
+            onCitySelectedListener = null
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        onCitySelectedListener = null
+    }
+
+
+    interface OnCitySelectedListener {
+        fun onCitySelected(city: City, position: Int)
+    }
 }
