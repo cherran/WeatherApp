@@ -78,8 +78,18 @@ class ForecastActivity : AppCompatActivity(), CityListFragment.OnCitySelectedLis
 
     // OnCitySelectedListener
     override fun onCitySelected(city: City, position: Int) {
-        val intent = CityPagerActivity.intent(this, position)
-        startActivity(intent)
+        val cityPagerFragment = supportFragmentManager.findFragmentById(R.id.view_pager_fragment) as? CityPagerFragment
+
+        if (cityPagerFragment != null) {
+            // Estamos en una interfaz donde existe el CityPagerFragment, le decimos que nos mueva a una ciudad
+            cityPagerFragment.moveToCity(position)
+        }
+        else {
+            // Estamos en una interfaz donde sólo hay lista. Lanzamos la actividad CityPagerActivity
+            val intent = CityPagerActivity.intent(this, position)
+            startActivity(intent)
+
+        }
     }
 
     /*

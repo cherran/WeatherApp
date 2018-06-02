@@ -174,8 +174,8 @@ class ForecastFragment: Fragment() {
 
     // Aquí actualizamos la interfaz con las temperaturas
     private fun updateTemperatureView() {
-        max_temp.text = getString(R.string.max_temp_format, forecast?.getMaxTemp(units), unitsToString()) // max_temp_format tiene parámetros, así que le paso también la temperatura
-        min_temp.text = getString(R.string.min_temp_format, forecast?.getMinTemp(units), unitsToString())
+        max_temp?.text = getString(R.string.max_temp_format, forecast?.getMaxTemp(units), unitsToString()) // max_temp_format tiene parámetros, así que le paso también la temperatura
+        min_temp?.text = getString(R.string.min_temp_format, forecast?.getMinTemp(units), unitsToString())
     }
 
     private fun unitsToString() = if (units == TemperatureUnit.CELSIUS) "ºC"
