@@ -58,7 +58,7 @@ class CityPagerActivity : AppCompatActivity() {
 
 
     private fun updateCityInfo(position: Int) {
-        supportActionBar.title = cities.getCity(position).name
+        supportActionBar?.title = cities.getCity(position).name
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -13,4 +13,9 @@ class Cities {
         get() = cities.size
 
     fun getCity(index: Int) = cities[index]
+
+    // Operator Overloading
+    operator fun get(index: Int) = cities[index]
+
+    fun toArray() = cities.toTypedArray()
 }
