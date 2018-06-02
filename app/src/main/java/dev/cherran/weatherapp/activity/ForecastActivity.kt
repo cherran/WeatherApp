@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import dev.cherran.weatherapp.R
+import dev.cherran.weatherapp.fragment.CityListFragment
 
 
 class ForecastActivity : AppCompatActivity() {
@@ -29,6 +30,17 @@ class ForecastActivity : AppCompatActivity() {
         // var number = savedInstanceState?.getInt("Number")
 
         Log.v(TAG, "Han llamado a OnCreate")
+
+        // Compruebo primero que el fragment ya no está añadido el fragment a nuestra jerarquía
+        if (supportFragmentManager.findFragmentById(R.id.city_list_fragment)  == null) {
+            // Añado el Fragment de forma dinámica
+            val fragment: CityListFragment =  CityListFragment.newInstance()
+
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.city_list_fragment, fragment)
+                    .commit()
+        }
+
     }
 
 
