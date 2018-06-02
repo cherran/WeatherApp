@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import dev.cherran.weatherapp.R
+import dev.cherran.weatherapp.forecastDay
+import dev.cherran.weatherapp.getTemperatureUnits
 import dev.cherran.weatherapp.model.Forecast
 import dev.cherran.weatherapp.model.TemperatureUnit
-
+import dev.cherran.weatherapp.units2String
 
 
 class ForecastRecyclerViewAdapter(private val forecast: List<Forecast>): RecyclerView.Adapter<ForecastRecyclerViewAdapter.ForecastViewHolder>() {
@@ -29,7 +31,7 @@ class ForecastRecyclerViewAdapter(private val forecast: List<Forecast>): Recycle
     override fun getItemCount() = forecast.size
 
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) { // ~= cellForRowAt
-        holder.bindForecast(forecast[position], TemperatureUnit.CELSIUS, position)
+        holder.bindForecast(forecast[position], getTemperatureUnits(holder.itemView.context), position)
     }
 
     inner class ForecastViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) { // itemView --> en este caso la CardView
@@ -43,7 +45,7 @@ class ForecastRecyclerViewAdapter(private val forecast: List<Forecast>): Recycle
 
         fun bindForecast(forecast: Forecast, temperatureUnit: TemperatureUnit, day: Int) { // nombre típico: bindModelo
             // Actualizamos la vista con el modelo
-            dayText?.text = forecastDay(day)
+            dayText?.text = forecastDay(context, day)
 
             forecastImage?.setImageResource(forecast.icon)
             forecastDescription?.text = forecast.description
@@ -58,17 +60,5 @@ class ForecastRecyclerViewAdapter(private val forecast: List<Forecast>): Recycle
             minTemp?.text = context.getString(R.string.min_temp_format, forecast.getMinTemp(temperatureUnit), unitsString)
         }
 
-        fun units2String(units: TemperatureUnit) = if (units == TemperatureUnit.CELSIUS) "ºC"
-        else "F"
-
-        fun forecastDay(index: Int) = when(index) {
-            0 -> context.getString(R.string.today)
-            1 -> context.getString(R.string.tomorrow)
-            2 -> context.getString(R.string.day_after_tomorrow)
-            3 -> context.getString(R.string.day_after_after_tomorrow)
-            4 -> context.getString(R.string.day_after_after_after_tomorrow)
-            else -> context.getString(R.string.unknown_day)
-        }
     }
-
 }

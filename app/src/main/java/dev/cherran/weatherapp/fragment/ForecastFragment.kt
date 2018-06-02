@@ -14,8 +14,10 @@ import dev.cherran.weatherapp.model.Forecast
 import dev.cherran.weatherapp.R
 import dev.cherran.weatherapp.activity.SettingsActivity
 import dev.cherran.weatherapp.adapter.ForecastRecyclerViewAdapter
+import dev.cherran.weatherapp.getTemperatureUnits
 import dev.cherran.weatherapp.model.City
 import dev.cherran.weatherapp.model.TemperatureUnit
+import dev.cherran.weatherapp.setTemperatureUnits
 import kotlinx.android.synthetic.main.content_forecast.*
 import kotlinx.android.synthetic.main.fragment_forecast.*
 
@@ -62,12 +64,6 @@ class ForecastFragment: Fragment() {
         }
 
 
-    val units: TemperatureUnit
-        get() = when(PreferenceManager.getDefaultSharedPreferences(activity)
-                .getInt(PREFERENCE_UNITS, TemperatureUnit.CELSIUS.ordinal)) {
-            TemperatureUnit.CELSIUS.ordinal -> TemperatureUnit.CELSIUS
-            else -> TemperatureUnit.FAHRENHEIT
-        }
 
 
     // No se actualiza la interfaz aquí, de momento solo lo utilizamos para el setHasOptionsMenu(true). Puede ser opcional
@@ -130,7 +126,7 @@ class ForecastFragment: Fragment() {
 //                startActivity(intent)
 
                 // Con el patrón de los Intents, lo hacemos más sencillito
-                startActivityForResult(SettingsActivity.intent(activity!!, units),
+                startActivityForResult(SettingsActivity.intent(activity!!, getTemperatureUnits(activity!!)),
                         REQUEST_SETTINGS)
 
                 return true
@@ -148,13 +144,10 @@ class ForecastFragment: Fragment() {
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     // Volvemos de settings con datos sobre las unidades elegidas por el user
                     val newUnits = data.getSerializableExtra(SettingsActivity.EXTRA_UNITS) as TemperatureUnit
-                    val oldUnits = units // Las almaceno por si el usuario deshace el cambio de unidades en el Snackbar
+                    val oldUnits = getTemperatureUnits(activity!!) // Las almaceno por si el usuario deshace el cambio de unidades en el Snackbar
 
                     // Guardo las preferencias del usuario
-                    PreferenceManager.getDefaultSharedPreferences(activity)
-                            .edit()
-                            .putInt(PREFERENCE_UNITS, newUnits.ordinal)
-                            .apply() // Para hacerlo de forma asíncrona
+                    setTemperatureUnits(activity!!, newUnits)
 
                     // Actualizo la interfaz con las nuevas unidades
                     updateTemperatureView()
@@ -174,12 +167,9 @@ class ForecastFragment: Fragment() {
 //                                // Actualizo la interfaz con las nuevas unidades
 //                                updateTemperatureView()
 //                            })
-                            .setAction(getString(R.string.undo)) {// El último argumento de setAction es un closure (bloque dde código), por lo que se puede pasar así (trailing closure) para simplificarlo
+                            .setAction(getString(R.string.undo)) {// El último argumento de setAction es un closure (bloque de código), por lo que se puede pasar así (trailing closure) para simplificarlo
                                 // Guardo las unidades viejas
-                                PreferenceManager.getDefaultSharedPreferences(activity)
-                                        .edit()
-                                        .putInt(PREFERENCE_UNITS, oldUnits.ordinal)
-                                        .apply() // Para hacerlo de forma asíncrona
+                                setTemperatureUnits(activity!!, oldUnits)
 
                                 // Actualizo la interfaz con las nuevas unidades
                                 updateTemperatureView()
