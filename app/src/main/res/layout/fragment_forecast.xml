@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.ForecastActivity"
-    android:padding="@dimen/default_activity_padding"
-    android:background="#fabada">
+    android:padding="@dimen/default_activity_padding">
 
 
     <ImageView

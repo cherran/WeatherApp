@@ -3,17 +3,12 @@ package dev.cherran.weatherapp.activity
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewPager
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import dev.cherran.weatherapp.R
-import dev.cherran.weatherapp.fragment.ForecastFragment
-import dev.cherran.weatherapp.model.Cities
+import dev.cherran.weatherapp.fragment.CityPagerFragment
 import kotlinx.android.synthetic.main.activity_city_pager.*
 
 class CityPagerActivity : AppCompatActivity() {
@@ -40,45 +35,17 @@ class CityPagerActivity : AppCompatActivity() {
         setSupportActionBar(toolbar) // Para hacer que la toolbar haga de ActionBar
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // botón de "atrás" en la toolbar
 
-        val adapter = object: FragmentPagerAdapter(supportFragmentManager) { /////////// Clase anónima
-            override fun getItem(position: Int): Fragment {
-                return ForecastFragment.newInstance(Cities.getCity(position))
-            }
+        val initialCityIndex = intent.getIntExtra(EXTRA_CITY, 0)
 
-            override fun getCount(): Int = Cities.count
-
-            override fun getPageTitle(position: Int): CharSequence? {
-                return Cities.getCity(position).name
-            }
-
+        // Creo, si hace falta, el CityPagerFragment, pasándole la ciudad inicial
+        if (supportFragmentManager.findFragmentById(R.id.view_pager_fragment) == null) {
+            // Hay hueco, y habiéndolo, metemos el fragment
+            val fragment = CityPagerFragment.newInstance(initialCityIndex)
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.view_pager_fragment, fragment)
+                    .commit()
         }
 
-        view_pager.adapter = adapter
-        view_pager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {
-            }
-
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-            }
-
-            override fun onPageSelected(position: Int) {
-                updateCityInfo(position)
-            }
-        })
-
-        val initialCityIndex = intent.getIntExtra(EXTRA_CITY, 0)
-        moveToCity(intent.getIntExtra(EXTRA_CITY, 0))
-        updateCityInfo(initialCityIndex)
-    }
-
-
-    private fun updateCityInfo(position: Int) {
-        supportActionBar?.title = Cities.getCity(position).name
-    }
-
-
-    private fun moveToCity(position: Int) {
-        view_pager.currentItem = position
     }
 
 
@@ -89,34 +56,11 @@ class CityPagerActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean = when(item?.itemId) {
-        R.id.previous -> {
-            view_pager.currentItem = view_pager.currentItem - 1
-            true
-        }
-        R.id.next -> {
-            view_pager.currentItem = view_pager.currentItem + 1
-            true
-        }
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean = when (item?.itemId) {
         android.R.id.home -> { // flecha de atrás de la toolbar
             finish()
             true
         }
         else -> super.onOptionsItemSelected(item)
-    }
-
-
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        // Se llama cada vez que cambiamos de página
-        super.onPrepareOptionsMenu(menu)
-
-        val previousMenu: MenuItem? = menu?.findItem(R.id.previous)
-        val nextMenu: MenuItem? = menu?.findItem(R.id.next)
-
-        val adapter: PagerAdapter = view_pager.adapter!!
-        previousMenu?.isEnabled = view_pager.currentItem > 0
-        nextMenu?.isEnabled = view_pager.currentItem < adapter.count - 1
-
-        return true
     }
 }

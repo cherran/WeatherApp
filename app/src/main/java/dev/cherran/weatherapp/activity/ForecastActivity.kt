@@ -5,8 +5,10 @@ package dev.cherran.weatherapp.activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.ViewGroup
 import dev.cherran.weatherapp.R
 import dev.cherran.weatherapp.fragment.CityListFragment
+import dev.cherran.weatherapp.fragment.CityPagerFragment
 import dev.cherran.weatherapp.model.City
 
 
@@ -33,15 +35,29 @@ class ForecastActivity : AppCompatActivity(), CityListFragment.OnCitySelectedLis
 
         Log.v(TAG, "Han llamado a OnCreate")
 
-        // Compruebo primero que el fragment ya no está añadido el fragment a nuestra jerarquía
-        if (supportFragmentManager.findFragmentById(R.id.city_list_fragment)  == null) {
-            // Añado el Fragment de forma dinámica
-            val fragment: CityListFragment =  CityListFragment.newInstance()
+        // Averiguamos qué interfaz hemos cargado
+        // Eso lo averiguamos si en la interfaz tenemos un FrameLayout concreto
+        if (findViewById<ViewGroup>(R.id.city_list_fragment) != null) {
+            // Compruebo primero que el fragment ya no está añadido el fragment a nuestra jerarquía
+            if (supportFragmentManager.findFragmentById(R.id.city_list_fragment)  == null) { // Se puede hacer con savedInstanceState == null
+                // Añado el Fragment de forma dinámica
+                val fragment: CityListFragment =  CityListFragment.newInstance()
 
-            supportFragmentManager.beginTransaction()
-                    .add(R.id.city_list_fragment, fragment)
-                    .commit()
+                supportFragmentManager.beginTransaction()
+                        .add(R.id.city_list_fragment, fragment)
+                        .commit()
+            }
         }
+
+        if (findViewById<ViewGroup>(R.id.view_pager_fragment) != null) {
+            // Hemos cargado una interfaz que tiene el hueco para el CityPagerFragment
+            if (supportFragmentManager.findFragmentById(R.id.view_pager_fragment)  == null) {
+                supportFragmentManager.beginTransaction()
+                        .add(R.id.view_pager_fragment, CityPagerFragment.newInstance(0))
+                        .commit()
+            }
+        }
+
 
     }
 
