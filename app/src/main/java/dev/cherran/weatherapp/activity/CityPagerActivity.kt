@@ -37,8 +37,9 @@ class CityPagerActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_city_pager)
 
-        toolbar.setLogo(R.mipmap.ic_launcher)
+        // toolbar.setLogo(R.mipmap.ic_launcher)
         setSupportActionBar(toolbar) // Para hacer que la toolbar haga de ActionBar
+        supportActionBar?.setDisplayHomeAsUpEnabled(true) // botón de "atrás" en la toolbar
 
         val adapter = object: FragmentPagerAdapter(supportFragmentManager) { /////////// Clase anónima
             override fun getItem(position: Int): Fragment {
@@ -96,6 +97,10 @@ class CityPagerActivity : AppCompatActivity() {
         }
         R.id.next -> {
             view_pager.currentItem = view_pager.currentItem + 1
+            true
+        }
+        android.R.id.home -> { // flecha de atrás de la toolbar
+            finish()
             true
         }
         else -> super.onOptionsItemSelected(item)

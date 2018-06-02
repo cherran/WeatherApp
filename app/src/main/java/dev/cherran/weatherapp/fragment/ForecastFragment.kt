@@ -163,7 +163,7 @@ class ForecastFragment: Fragment() {
     }
 
     // Se llama cada vez que cambia la visibilidad de este frasgment al user (si lo ve o no)
-    // Fixes a problem when we change units and we move to the next city
+    // Fixes a problem/bug when we change units and we move to the next city
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
 
