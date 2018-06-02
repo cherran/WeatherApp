@@ -12,6 +12,7 @@ import dev.cherran.weatherapp.R
 import dev.cherran.weatherapp.activity.SettingsActivity
 import dev.cherran.weatherapp.model.City
 import dev.cherran.weatherapp.model.TemperatureUnit
+import kotlinx.android.synthetic.main.content_forecast.*
 import kotlinx.android.synthetic.main.fragment_forecast.*
 
 class ForecastFragment: Fragment() {
@@ -37,6 +38,11 @@ class ForecastFragment: Fragment() {
         }
 
     }
+
+    private enum class VIEW_INDEX(val index: Int) {
+        LOADING(0), FORECAST(1)
+    }
+
 
     val REQUEST_SETTINGS = 1
     val PREFERENCE_UNITS = "PREFERENCE_UNITS"
@@ -82,9 +88,29 @@ class ForecastFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         // En el caso de los Fragments no se puede actualizar la vista hasta que esta ha sido creada
 
+        // Configuramos las animaciones para el ViewSwitcher
+        view_switcher.setInAnimation(activity, android.R.anim.fade_in)
+        view_switcher.setOutAnimation(activity, android.R.anim.fade_out)
 
-        val city = arguments?.getSerializable(ARG_CITY) as City
-        forecast = city.forecast
+        // Le decimos al ViewSwitcher que muestre la primera vista
+        view_switcher.displayedChild = VIEW_INDEX.LOADING.index
+
+        view.postDelayed({
+            // Aquí simulamos que ya nos hemos bajado la información del tiempo
+            // Configuramos el RecyclerView. Primero decimos cómo se visualizan sus elementos
+
+            // forecast_list.layoutManager = GridLayoutManager(activity, resources.getInteger(R.integer.forecast_columns))
+
+            // Le decimos quién es el que anima al RecyclerView
+            // forecast_list.itemAnimator = DefaultItemAnimator()
+
+            // Por último tenemos que decirle los datos que van a rellenar el RecyclerView. Eso es
+            // tarea del setter de forecast
+            val city = arguments?.getSerializable(ARG_CITY) as City
+            forecast = city.forecast
+            view_switcher?.displayedChild = VIEW_INDEX.FORECAST.index
+        }, resources.getInteger(R.integer.default_fake_loading_time).toLong())
+
     }
 
 
