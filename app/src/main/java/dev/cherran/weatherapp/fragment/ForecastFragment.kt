@@ -162,6 +162,16 @@ class ForecastFragment: Fragment() {
         }
     }
 
+    // Se llama cada vez que cambia la visibilidad de este frasgment al user (si lo ve o no)
+    // Fixes a problem when we change units and we move to the next city
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+
+        if(isVisibleToUser && forecast != null) updateTemperatureView()
+    }
+
+
+
     // Aquí actualizamos la interfaz con las temperaturas
     private fun updateTemperatureView() {
         max_temp.text = getString(R.string.max_temp_format, forecast?.getMaxTemp(units), unitsToString()) // max_temp_format tiene parámetros, así que le paso también la temperatura
