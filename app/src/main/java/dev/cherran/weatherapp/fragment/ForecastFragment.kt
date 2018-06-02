@@ -96,7 +96,7 @@ class ForecastFragment: Fragment() {
             // Aquí simulamos que ya nos hemos bajado la información del tiempo
 
             // Configuramos el RecyclerView. Primero decimos cómo se visualizan sus elementos
-            forecast_list?.layoutManager = LinearLayoutManager(activity)// GridLayoutManager(activity, resources.getInteger(R.integer.forecast_columns))
+            forecast_list?.layoutManager = GridLayoutManager(activity, resources.getInteger(R.integer.forecast_columns))
 
             // Le decimos quién es el que anima al RecyclerView
             forecast_list?.itemAnimator = DefaultItemAnimator()
