@@ -2,7 +2,7 @@ package dev.cherran.weatherapp.model
 
 import dev.cherran.weatherapp.R
 
-class Cities {
+object Cities { // object --> Singleton
     private val cities: List<City> = listOf( // lista inmutable (mutable: mutableListOf)
             City("Madrid", Forecast(25f, 10f, 35f, "Soleado con alguna nube", R.drawable.ico_02)),
             City("Jaen", Forecast(36f, 23f, 19f, "Sol a tope", R.drawable.ico_01)),
