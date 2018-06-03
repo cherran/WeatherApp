@@ -4,21 +4,21 @@ import android.app.Activity
 import android.support.v4.app.Fragment
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.design.widget.Snackbar
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import dev.cherran.weatherapp.model.Forecast
 import dev.cherran.weatherapp.R
 import dev.cherran.weatherapp.activity.SettingsActivity
 import dev.cherran.weatherapp.adapter.ForecastRecyclerViewAdapter
 import dev.cherran.weatherapp.getTemperatureUnits
+import dev.cherran.weatherapp.model.Cities
 import dev.cherran.weatherapp.model.City
 import dev.cherran.weatherapp.model.TemperatureUnit
 import dev.cherran.weatherapp.setTemperatureUnits
-import kotlinx.android.synthetic.main.content_forecast.*
+import dev.cherran.weatherapp.activity.DetailActivity
 import kotlinx.android.synthetic.main.fragment_forecast.*
 
 class ForecastFragment: Fragment() {
@@ -60,6 +60,7 @@ class ForecastFragment: Fragment() {
     if (value != null) {
                 val adapter = ForecastRecyclerViewAdapter(value)
                 forecast_list?.adapter = adapter
+                setRecyclerViewClickListener()
             }
         }
 
@@ -190,9 +191,30 @@ class ForecastFragment: Fragment() {
 
 
 
-    // Aquí actualizamos la interfaz con las temperaturas
-    private fun updateTemperatureView() {
+    fun setRecyclerViewClickListener() {
+        // Si alguien pulsa un elemento del RecyclerView, nos queremos enterar aquí
+        val adapter = forecast_list?.adapter as? ForecastRecyclerViewAdapter
+        adapter?.onClickListener = View.OnClickListener {
+            // Alguien ha pulsado un elemento del RecyclerView
+            val forecastIndex = forecast_list.getChildAdapterPosition(it)
+            val city = arguments?.getSerializable(ARG_CITY) as City
+            val cityIndex = Cities.getIndex(city)
+
+            // Opciones especiales para navegar con vistas comunes
+            val animationOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    activity!!,
+                    it,
+                    getString(R.string.transition_to_detail)
+            )
+
+            startActivity(DetailActivity.intent(activity!!, cityIndex, forecastIndex), animationOptions.toBundle())
+        }
+    }
+
+    // Aquí actualizaremos la interfaz con las temperaturas
+    fun updateTemperatureView() {
         forecast_list?.adapter = ForecastRecyclerViewAdapter(forecast!!)
+        setRecyclerViewClickListener()
     }
 
 

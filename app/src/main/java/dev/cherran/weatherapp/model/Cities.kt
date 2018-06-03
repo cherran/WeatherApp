@@ -30,10 +30,12 @@ object Cities { // object --> Singleton
     val count
         get() = cities.size
 
-    fun getCity(index: Int) = cities[index]
+    fun getIndex(city: City): Int = cities.indexOf(city)
 
     // Operator Overloading
-    operator fun get(index: Int) = cities[index]
+            operator fun get(index: Int) = cities[index]
+
+    fun getCity(index: Int) = cities[index]
 
     fun toArray() = cities.toTypedArray()
 }

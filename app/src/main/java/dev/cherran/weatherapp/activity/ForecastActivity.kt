@@ -4,13 +4,17 @@ package dev.cherran.weatherapp.activity
 // import android.widget.Toast
 import android.os.Build
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.ViewGroup
+import android.widget.EditText
 import dev.cherran.weatherapp.R
 import dev.cherran.weatherapp.fragment.CityListFragment
 import dev.cherran.weatherapp.fragment.CityPagerFragment
 import dev.cherran.weatherapp.model.City
+import kotlinx.android.synthetic.main.activity_forecast.*
 
 
 class ForecastActivity : AppCompatActivity(), CityListFragment.OnCitySelectedListener {
@@ -72,7 +76,21 @@ class ForecastActivity : AppCompatActivity(), CityListFragment.OnCitySelectedLis
             }
         }
 
-
+        add_button.setOnClickListener {
+            val customView = layoutInflater.inflate(R.layout.view_cityinput, null)
+            val edit = customView.findViewById<EditText?>(R.id.city_name)
+            AlertDialog.Builder(this)
+                    .setTitle("Añadir ciudad")
+                    .setMessage("Introduce la ciudad a añadir")
+                    .setView(customView)
+                    .setPositiveButton(android.R.string.ok, { _, _ ->
+                        // Añadimos la nueva ciudad
+                        Snackbar.make(findViewById(android.R.id.content), edit?.text.toString(), Snackbar.LENGTH_LONG)
+                                .show()
+                    })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
+        }
     }
 
 

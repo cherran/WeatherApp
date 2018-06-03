@@ -16,14 +16,14 @@ import dev.cherran.weatherapp.units2String
 
 class ForecastRecyclerViewAdapter(private val forecast: List<Forecast>): RecyclerView.Adapter<ForecastRecyclerViewAdapter.ForecastViewHolder>() {
 
-//    var onClickListener: View.OnClickListener? = null
+    var onClickListener: View.OnClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.content_forecast, parent, false)
         // Le decimos a este view que cuando lo pulsen avise a nuestro onClickListener
-//        view.setOnClickListener {
-//            onClickListener?.onClick(it)
-//        }
+        view.setOnClickListener {
+            onClickListener?.onClick(it)
+        }
 
         return ForecastViewHolder(view)
     }
