@@ -11,7 +11,6 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.*
 import dev.cherran.weatherapp.model.Forecast
 import dev.cherran.weatherapp.R
-import dev.cherran.weatherapp.activity.SettingsActivity
 import dev.cherran.weatherapp.adapter.ForecastRecyclerViewAdapter
 import dev.cherran.weatherapp.getTemperatureUnits
 import dev.cherran.weatherapp.model.Cities
@@ -121,14 +120,18 @@ class ForecastFragment: Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_show_settings -> {
-                // Lanzaremos la pantalla de ajustes
+                // Lanzaremos la pantalla de ajustes, indicando que nos devolverá datos
 
 //                val intent = Intent(this, SettingsActivity::class.java)
 //                startActivity(intent)
 
                 // Con el patrón de los Intents, lo hacemos más sencillito
-                startActivityForResult(SettingsActivity.intent(activity!!, getTemperatureUnits(activity!!)),
-                        REQUEST_SETTINGS)
+//                startActivityForResult(SettingsActivity.intent(activity!!, getTemperatureUnits(activity!!)),
+//                        REQUEST_SETTINGS)
+
+                val dialog = SettingsDialog.newInstance(getTemperatureUnits(activity!!))
+                dialog.setTargetFragment(this, REQUEST_SETTINGS)
+                dialog.show(fragmentManager, null)
 
                 return true
             }
@@ -144,7 +147,7 @@ class ForecastFragment: Fragment() {
             REQUEST_SETTINGS -> {
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     // Volvemos de settings con datos sobre las unidades elegidas por el user
-                    val newUnits = data.getSerializableExtra(SettingsActivity.EXTRA_UNITS) as TemperatureUnit
+                    val newUnits = data.getSerializableExtra(SettingsDialog.ARG_UNITS) as TemperatureUnit
                     val oldUnits = getTemperatureUnits(activity!!) // Las almaceno por si el usuario deshace el cambio de unidades en el Snackbar
 
                     // Guardo las preferencias del usuario
@@ -214,7 +217,7 @@ class ForecastFragment: Fragment() {
     // Aquí actualizaremos la interfaz con las temperaturas
     fun updateTemperatureView() {
         forecast_list?.adapter = ForecastRecyclerViewAdapter(forecast!!)
-        setRecyclerViewClickListener()
+        setRecyclerViewClickListener() // Para que se vuelva a enganchar el listener cuando se cambia de página en el CityPager
     }
 
 
